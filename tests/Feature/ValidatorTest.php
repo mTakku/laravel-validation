@@ -30,5 +30,8 @@ class ValidatorTest extends TestCase
 
         $validator = Validator::make($data, $rules);
         self::assertNotNull($validator);
+
+        self::assertTrue($validator->passes());
+        self::assertFalse($validator->fails());
     }
 }
