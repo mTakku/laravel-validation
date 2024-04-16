@@ -15,7 +15,7 @@ class Uppercase implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($value !== strtoupper($value)) {
-            $fail("The atribute must be UPPERCASE")->translate([
+            $fail("validation.custom.uppercase")->translate([
                 "attribute" => $attribute,
                 "value" => $value
             ]);
