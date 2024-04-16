@@ -82,4 +82,29 @@ class ValidatorTest extends TestCase
             Log::error($message->toJson(JSON_PRETTY_PRINT));
         }
     }
+
+    public function testValidatorMultipleRules()
+    {
+        App::setLocale("id");
+
+        $data = [
+            "username" => "farel",
+            "password" => "farel"
+        ];
+
+        $rules = [
+            "username" => "required|email|max:100",
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        self::assertFalse($validator->passes());
+        self::assertTrue($validator->fails());
+
+        $message = $validator->getMessageBag();
+
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 }
