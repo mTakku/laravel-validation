@@ -193,4 +193,28 @@ class ValidatorTest extends TestCase
 
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
+
+    public function testValidatorCustomRule()
+    {
+        $data = [
+            "username" => "farel@zeta.com",
+            "password" => "farel@zeta.com"
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100", new Uppercase()],
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        self::assertFalse($validator->passes());
+        self::assertTrue($validator->fails());
+
+        $message = $validator->getMessageBag();
+
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
+
 }
