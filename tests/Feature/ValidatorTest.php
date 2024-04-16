@@ -244,5 +244,23 @@ class ValidatorTest extends TestCase
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
 
+    public function testValidatorRuleClasses()
+    {
+        $data = [
+            "username" => "farel",
+            "password" => "farel@zeta123.com"
+        ];
+
+        $rules = [
+            "username" => ["required", new In(["farel", "Takku", "Zeta"])],
+            "password" => ["required", Password::min(6)->letters()->numbers()->symbols()]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        self::assertTrue($validator->passes());
+    }
+
 
 }
