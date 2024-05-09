@@ -17,7 +17,7 @@
 > php artisan serve
 > ```
 ---
-> #### APA ITU LARAVEL DATABASE?
+> #### APA ITU LARAVEL VALIDATION?
 > - Laravel memiliki fitur yang mempermudah kita membuatRaw SQL (manual), Query Builder dan EloquentORM
 > - Saat ini, laravel mendukung lima database utama yaitu :
 > ```
