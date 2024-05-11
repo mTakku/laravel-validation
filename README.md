@@ -18,15 +18,7 @@
 > ```
 ---
 > #### APA ITU LARAVEL VALIDATION?
-> - Laravel memiliki fitur yang mempermudah kita membuatRaw SQL (manual), Query Builder dan EloquentORM
-> - Saat ini, laravel mendukung lima database utama yaitu :
-> ```
-> MaridDB 10.3+
-> MySQL 5.7+
-> Postgres SQL 10.0+
-> SQLite 3.8.8+
-> SQL Server 2017+
-> ```
+> - Laravel memiliki fitur validation
 >
 > #### DEBUG QUERY
 > - Debug Query dalam Laravel Database adalah proses memantau dan menganalisis query SQL yang dihasilkan oleh aplikasi Anda saat berinteraksi dengan database.
