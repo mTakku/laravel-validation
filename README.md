@@ -8,7 +8,7 @@
 > - PHP 8.1.0
 > - LARAVEL 10.2.3
 >   ```
->   Composer Create-project laravel\laravel=v10.0.3 laravel-collection
+>   Composer Create-project laravel\laravel=v10.0.3 laravel-validation
 >   ```
 > - XAMPP
 ---
