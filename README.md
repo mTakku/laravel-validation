@@ -17,221 +17,115 @@
 > php artisan serve
 > ```
 ---
-> #### APA ITU LARAVEL VALIDATION?
-> - Laravel memiliki fitur validation
->
-> #### DEBUG QUERY
-> - Debug Query dalam Laravel Database adalah proses memantau dan menganalisis query SQL yang dihasilkan oleh aplikasi Anda saat berinteraksi dengan database.
->
-> Berikut contoh debug query pada laravel database :
+> #### APA ITU VALIDATION
+> - validasi di Laravel adalah proses memastikan data yang dimasukkan ke dalam aplikasi web Anda aman dan sesuai dengan yang diharapkan.
+> #### VALIDATOR
+> - `Validator` dalam Laravel adalah kelas yang digunakan untuk memvalidasi data. Dengan `Validator`, Anda bisa menentukan aturan validasi, seperti memastikan bahwa input adalah string, panjangnya tidak melebihi batas tertentu, atau memenuhi format email.
+> - contoh sintaksnya :
 > ```
-> DB::listen(function (QueryExecuted $query){
->     Log::info($query->sql);
-> });
+> $validator = Validator::make($data, $rules);
+>
+> if ($validator->fails()) {
+>    // Tangani kesalahan jika validasi gagal
+> } else {
+>    // Lakukan tindakan jika validasi berhasil
+> }
 > ```
->
-> #### CRUD SQL
-> - Dengan menggunakan DB facade, kita bisa melakukan Raw Query
->
-> Berikut contoh kode raw sql :
-> ```
-> // Untuk melakukan insert data
-> DB::insert(sql,array): bool
->
-> // Untuk melakukan update data
-> DB::update(sql,array): int
->
-> // Untuk melakukan delete data
-> DB::delete(sql,array): int
->
-> // Untuk melakukan select data
-> DB::select(sql,array): array
->
-> // Untuk melakukan jenis sql lain
-> DB::statement(sql,array): bool
->
-> // Untuk melakukan sql bukan prepared statement
-> DB::unprepared(sql,array): bool
-> ```
->
-> #### DATABASE TRANSACTION
-> - Laravel database juga memiliki fitur untuk melakukan database transaction secara otomatis
-> - kita bisa menggunakan function ```DB::transaction```
->
-> Berikut salah satu contoh kode database transaction :
-> ```
-> // Manual database transaction
-> DB::transaction(function () {
-> DB::insert('insert into categories(id, name, description, created_at) values (?, ?, ? , ?)', [
-> "GADGET", "Gadget", "Gadget Category", "2020-10-10 10:10:10"
-> ]);
-> DB::insert('insert into categories(id, name, description, created_at) values (?, ?, ? , ?)', [
-> "FOOD", "Food", "Food Category", "2020-10-10 10:10:10"
-> ]);
-> });
-> ```
-> #### QUERY BUILDER INSERT
-> - Untuk melakukan insert menggunakan query builder, kita bisa menggunakan method dengan prefix insert dengan parameter associative array dimana key nya adalah kolom, dan valuenya nilai yang akan disimpan diatabase
-> - InsertGetId() untuk memasukan data ke database, dan mengembalikan primary key yang diset secara auto generetae, cocok untuk tabel dengan id auto increment
-> - insertOrIgnore() untuk memasukan data ke database dan jika terjadi error maka akan di ignore
->
-> Berikut contoh kode query builder insert :
-> ```
-> DB::table("categories")->insert([
->     "id" => "GADGET",
->     "name" => "Gadget"
-> ]);
->  DB::table("categories")->insert([
->     "id" => "FOOD",
->     "name" => "Food"
->
-> ]);
->
-> $result = DB::select("select count(id) as total from categories");
-> self::assertEquals(2, $result[0]->total);
-> ```
+> -Dalam contoh ini, `$data` adalah data yang ingin divalidasi, dan $rules adalah aturan validasi yang ditentukan. Jika validasi gagal, Anda bisa menangani kesalahan tersebut; jika tidak, 
 ---
-> #### QUERY BUILDER SELECT
-> - Query builder select bisa kita gunakan untuk mengubah select kolom dimana defaultnya adalah semua kolom
+> #### ERROR MESSAGE
+> - Error Message dalam Laravel adalah pesan yang memberi tahu pengguna tentang kesalahan dalam input yang mereka berikan. Ini muncul ketika validasi data gagal, membantu pengguna memahami masalahnya. Misalnya, "Email harus berupa alamat email yang valid." pesan kesalahan memberi tahu pengguna bahwa mereka harus memasukkan alamat email yang benar.
+---
+> #### VALIDATION EXCEPTION
+> - `ValidationException` dalam Laravel adalah pengecualian yang dilemparkan ketika validasi data gagal. Ketika Anda memvalidasi data dan ada kesalahan, Laravel secara otomatis melemparkan pengecualian ini. Anda dapat menangkapnya dalam kontroler atau bagian lain dari kode Anda untuk menangani kesalahan validasi dan memberikan respons yang sesuai kepada pengguna.
+> - contoh sintaksnya:
+>```
 >
-> Berikut salah satu contoh kode query builder select :
+>try {
+>    // Lakukan validasi data di sini
+>} catch (ValidationException $e) {
+>    // Tangani pengecualian validasi di sini
+>    $errors = $e->validator->errors()->all();
+>    return response()->json(['errors' => $errors], 422);
+>}
+>```
+> - Dalam blok `catch`, kita menangkap `ValidationException` dan kemudian dapat melakukan apa pun yang diperlukan, seperti mengambil pesan kesalahan validasi dari objek validator dan mengembalikannya kepada
+pengguna dalam bentuk yang sesuai. Hal ini memungkinkan aplikasi Anda untuk memberikan umpan balik yang tepat kepada pengguna ketika terjadi kesalahan validasi.
+---
+> #### VALIDATION RULES
+> - Aturan validasi dalam Laravel adalah kumpulan aturan yang digunakan untuk memeriksa data yang dimasukkan oleh pengguna. Ini termasuk memastikan data tidak kosong (`required`), adalah alamat email yang valid (`email`), merupakan bilangan (`numeric`), dll. Anda bisa menggunakan aturan ini untuk memvalidasi input dengan cepat dan tepat.
+---
+> #### VALIDATION DATA
+> - Data yang valid adalah data yang sesuai dengan aturan validasi yang telah ditetapkan. Dalam konteks Laravel, ini berarti data yang memenuhi semua aturan validasi yang telah didefinisikan, seperti tidak kosong (required), memiliki format yang benar (misalnya, alamat email yang valid), atau memenuhi batasan tertentu (misalnya, panjang string minimum). Jadi, data yang valid adalah data yang lolos semua pengujian validasi yang telah ditetapkan untuk itu.
+---
+> #### VALIDATION MESSAGE
+> - Validation Message adalah pesan yang memberitahu pengguna tentang kesalahan yang terjadi saat validasi data. Ketika data yang dimasukkan pengguna tidak memenuhi aturan validasi yang telah ditetapkan, pesan validasi memberikan informasi tentang kesalahan tersebut. Pesan ini membantu pengguna memahami masalahnya dan dapat membimbing mereka untuk memperbaiki input mereka. Pesan validasi yang baik biasanya jelas dan informatif, memberikan petunjuk yang berguna kepada pengguna tentang apa yang salah dengan data yang mereka masukkan.
+---
+> #### ADDITIONAL VALIDATION
+> - Validasi tambahan adalah langkah-langkah validasi ekstra yang Anda terapkan untuk memeriksa data lebih lanjut setelah validasi standar. Ini bisa termasuk pengujian spesifik untuk kasus penggunaan tertentu atau memverifikasi data melawan layanan eksternal. Validasi tambahan membantu memastikan bahwa data yang dimasukkan memenuhi persyaratan lebih lanjut sesuai dengan kebutuhan aplikasi Anda.
+---
+> #### CUSTOM RULE
+> - Anda bisa membuat aturan validasi kustom dengan Laravel. Berikut langkahnya:
+>> 1. Gunakan perintah artisan untuk membuat aturan baru:
+>>```
+>>php artisan make:rule CustomRule
+>>```
+>> 2. Di dalam file yang baru dibuat (CustomRule.php), tentukan logika validasi di dalam metode `passes`.
+>>```
+>>public function passes($attribute, $value)
+>>{
+>>    // Logika validasi Anda di sini
+>>}
+>>```
+>> 3. Definisikan pesan kesalahan dalam metode `message`.
+>> ```
+>> public function message()
+>>{
+>>    return 'Pesan kesalahan kustom Anda di sini.';
+>>}
+>> ```
+>>  4. Gunakan aturan validasi kustom Anda dalam validasi Anda seperti aturan validasi bawaan lainnya.
+>> ```
+>> $request->validate([
+>>    'field' => ['required', new CustomRule],
+>>]);
+>>```
+---
+> #### RULE CLASSES
+> - Rule classes dalam Laravel adalah kelas yang menerapkan aturan validasi khusus. Dengan membuat rule class, Anda bisa memisahkan logika validasi dari kontroler, meningkatkan keterbacaan kode. Langkahnya: buat rule class, tentukan logika validasi dalam metode `passes`, definisikan pesan kesalahan dalam metode `message`, lalu gunakan rule class tersebut dalam validasi seperti aturan bawaan.
+---
+> #### Nested Array Validation
+> - Anda bisa memvalidasi array bersarang dalam Laravel dengan menggunakan sintaks seperti ini:
 > ```
-> $this->testInsert();
->
-> $collection = DB::table("categories")->select(["id", "name"])->get();
-> self::assertNotNull($collection);
->
-> $collection->each(function ($item) {
->     Log::info(json_encode($item));
-> });
-> ```
-> #### CHUNK RESULT
-> - Chunk Result dalam Laravel Query Builder memungkinkan Anda untuk membagi hasil query menjadi beberapa bagian (chunk) yang lebih kecil untuk diproses secara terpisah. Ini berguna ketika Anda perlu memproses jumlah data besar tanpa membebani memori server secara berlebihan.
->
-> Berikut contoh kode chunk result :
-> ```
-> $this->insertManyCategories();
->
-> DB::table("categories")->orderBy("id")
->     ->chunk(10, function ($categories) {
->         self::assertNotNull($categories);
->         Log::info("Start Chunk");
->         $categories->each(function ($category) {
->     Log::info(json_encode($category));
-> });
-> Log::info("End Chunk");
-> });
-> ```
->
-> #### LAZY RESULT
-> - Laravel memiliki fitur lazy, dimana kita bisa menjadikan query builder dengan lazy results, yang menghasilkan lazy collection
-> - karena hasilnya berupa lazy, data yang diambil dari database akan bertahap tidak langsung semuanya diload ke memory
->
-> Berikut contoh salah satu kode lazy results :
-> ```
-> $this->insertManyCategories();
->
-> $collection = DB::table("categories")->orderBy("id")->lazy(10)->take(3);
-> self::assertNotNull($collection);
->
-> $collection->each(function ($item) {
->     Log::info(json_encode($item));
-> });
-> ```
->
-> #### CURSOR
-> - Selain chunk dan lazy, terdapat cara lain untuk membuat lazy result, yaitu menggunakan cursor
-> - cursor hanya akan melakukan query satu kali
->
-> Berikut contoh kode cursor :
-> ```
-> $this->insertManyCategories();
-> 
-> $collection = DB::table("categories")->orderBy("id")->cursor();
-> self::assertNotNull($collection);
->
-> $collection->each(function ($item) {
->     Log::info(json_encode($item));
-> });
-> ```
->
-> #### PAGINATION
-> - Daat kita membuat aplikasi Web atau RESTful API yang mengembalikan data di database, kita sering memberi informasi tentang pagination, misal jumlah record, jumlah page, page saat ini dan lain lain
-> - Pagination dalam Laravel memungkinkan Anda untuk membagi hasil query menjadi beberapa halaman untuk ditampilkan kepada pengguna secara terpisah.
->
-> Berikut contoh kode pagination :
-> ```
-> $this->insertCategories();
->
-> $paginate = DB::table("categories")->paginate(perPage: 2, page: 2);
->
-> self::assertEquals(2, $paginate->currentPage());
-> self::assertEquals(2, $paginate->perPage());
-> self::assertEquals(2, $paginate->lastPage());
-> self::assertEquals(4, $paginate->total());
->
-> $collection = $paginate->items();
-> self::assertCount(2, $collection);
-> foreach ($collection as $item) {
->     Log::info(json_encode($item));
-> }
-> ```
->
-> #### GROUPING
-> - Grouping dalam Laravel Collection adalah proses mengelompokkan elemen-elemen koleksi berdasarkan kriteria tertentu, seperti properti atau hasil dari sebuah closure.
->
-> Berikut contoh kode grouping :
-> ```
-> $collection = collect([
->     [
->         "name" => "Farel",
->         "department" => "IT"
->     ],
->     [
->         "name" => "Zeta",
->         "department" => "IT"
->     ],
->     [
->         "name" => "Takku",
->         "department" => "HR"
->     ]
-> ]);
->
-> $result = $collection->groupBy("department");
-> ```
->
-> #### DATABASE MIGRATION
-> - Laravel memiliki fitur bernama database migration, fitur ini digunakan untuk melakukan versioning schema database, dimana setiap perubahan akan di track sehingga akan selalu konsisten
->
-> Berikut contoh kode membuat database migration :
-> ```
-> // pada terminal
-> php artisan make:migration create_table_counter
->
-> // untuk migrate database ke dalam database mysql
-> php artisan migrate
-> ```
-> 
-> #### DATABASE SEEDING
-> - Database Seeding dalam Laravel adalah proses untuk memasukkan data awal ke dalam tabel database Anda. Ini berguna saat Anda ingin mengisi database dengan data contoh atau data yang dibutuhkan untuk pengujian atau pengembangan.
->
-> Berikut contoh kode database seeding :
-> ```
-> // membuat seed baru
-> php artisan make:seed CategorySeeder
->
-> // Contoh kode seeder
-> public function run(): void
-> {
-> DB::table("counters")->insert([
-> "id" => "sample",
-> "counter" => 0
-> ]);
-> }
->
-> // Untuk mengseed database lakukan
-> php artisan db:seed
-> ```
+> $request->validate([
+>    'users.*.name' => 'required|string',
+>    'users.*.email' => 'required|email',
+>    'users.*.age' => 'required|integer|min:18',
+>]);
+>```
+> - Dalam contoh ini, kita memvalidasi setiap elemen dalam array `users`, memastikan bahwa setiap pengguna memiliki nama, email, dan usia yang sesuai dengan aturan validasi yang ditetapkan.
+---
+> #### HTTP REQUEST VALIDATION
+> - Validasi permintaan HTTP dalam Laravel memungkinkan Anda untuk memverifikasi data yang dikirim oleh pengguna melalui permintaan HTTP, seperti formulir web atau permintaan API.
+>> 1. Buat Aturan Validasi: Tentukan aturan validasi untuk setiap bidang data yang ingin Anda validasi di dalam kelas permintaan.
+>> ```
+>> public function rules()
+>>{
+>>    return [
+>>        'title' => 'required|string|max:255',
+>>        'content' => 'required|string',
+>>        'tags' => 'nullable|array',
+>>        'tags.*' => 'string|max:50',
+>>    ];
+>> }
+>> ```
+>>  2. Gunakan Kelas Permintaan: Gunakan kelas permintaan yang baru Anda buat dalam metode kontroler untuk menangani validasi.
+>> ```
+>> public function store(StorePostRequest $request)
+>>{
+>>    // Data sudah divalidasi dan disahkan, lanjutkan dengan pemrosesan
+>>}
+>>```
 <p align="center" >
   <b>PERTANYAAN DAN CATATAN TAMBAHAN</b>
 </p>
