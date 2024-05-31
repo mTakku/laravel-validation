@@ -21,7 +21,8 @@
 > - validasi di Laravel adalah proses memastikan data yang dimasukkan ke dalam aplikasi web Anda aman dan sesuai dengan yang diharapkan.
 > #### VALIDATOR
 > - `Validator` dalam Laravel adalah kelas yang digunakan untuk memvalidasi data. Dengan `Validator`, Anda bisa menentukan aturan validasi, seperti memastikan bahwa input adalah string, panjangnya tidak melebihi batas tertentu, atau memenuhi format email.
-> - contoh sintaksnya :
+> 
+> Berikut contoh kode validator :
 > ```
 > $validator = Validator::make($data, $rules);
 >
